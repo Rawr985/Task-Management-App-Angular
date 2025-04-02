@@ -1,0 +1,67 @@
+<div class="task-container">
+  <h2>Lista de Tareas</h2>
+  
+  <form (submit)="addTask()" class="task-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput [(ngModel)]="newTask.title" name="title" placeholder="Título de la tarea" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput [(ngModel)]="newTask.description" name="description" placeholder="Descripción de la tarea"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha de vencimiento</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="newTask.dueDate" name="dueDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Prioridad</mat-label>
+        <mat-select [(ngModel)]="newTask.priority" name="priority" required>
+          <mat-option value="low">Baja</mat-option>
+          <mat-option value="medium">Media</mat-option>
+          <mat-option value="high">Alta</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit">Agregar Tarea</button>
+  </form>
+
+  <div class="task-list">
+    <div *ngFor="let task of tasks" class="task-card mat-elevation-z2">
+      <mat-card>
+        <div mat-card-header>
+          <div mat-card-title [class.completed]="task.completed">
+            <mat-checkbox [checked]="task.completed" (change)="toggleTaskCompletion(task.id)"></mat-checkbox>
+            {{ task.title }}
+          </div>
+          <mat-chip-set>
+            <mat-chip [color]="getPriorityColor(task.priority)" selected>{{ task.priority }}</mat-chip>
+          </mat-chip-set>
+        </div>
+
+        <div mat-card-content>
+          <p>{{ task.description }}</p>
+          <p *ngIf="task.dueDate" class="due-date">
+            <mat-icon>event</mat-icon>
+            Vence: {{ task.dueDate | date:'shortDate' }}
+          </p>
+        </div>
+
+        <div mat-card-actions align="end">
+          <button mat-icon-button color="warn" (click)="deleteTask(task.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
