@@ -6,8 +6,28 @@ import { Task } from './task.model';
 })
 export class TaskService {
   private tasks: Task[] = [];
+  private readonly STORAGE_KEY = 'tasks';
 
-  constructor() { }
+  constructor() {
+    if (typeof window !== 'undefined') {
+      this.loadTasks();
+    }
+  }
+
+  private loadTasks(): void {
+    if (typeof window !== 'undefined') {
+      const storedTasks = localStorage.getItem(this.STORAGE_KEY);
+      if (storedTasks) {
+        this.tasks = JSON.parse(storedTasks);
+      }
+    }
+  }
+
+  private saveTasks(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.tasks));
+    }
+  }
 
   getTasks(): Task[] {
     return this.tasks;
@@ -19,16 +39,19 @@ export class TaskService {
       id: Date.now()
     };
     this.tasks.push(newTask);
+    this.saveTasks();
   }
 
   toggleTaskCompletion(id: number): void {
     const task = this.tasks.find(t => t.id === id);
     if (task) {
       task.completed = !task.completed;
+      this.saveTasks();
     }
   }
 
   deleteTask(id: number): void {
     this.tasks = this.tasks.filter(task => task.id !== id);
+    this.saveTasks();
   }
 }
