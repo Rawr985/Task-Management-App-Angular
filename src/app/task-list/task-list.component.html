@@ -52,7 +52,7 @@
           <p>{{ task.description }}</p>
           <p *ngIf="task.dueDate" class="due-date">
             <mat-icon>event</mat-icon>
-            Vence: {{ task.dueDate | date:'shortDate' }}
+            Vence: {{ task.dueDate | date:'dd/MM/yyyy' }}
           </p>
         </div>
 
