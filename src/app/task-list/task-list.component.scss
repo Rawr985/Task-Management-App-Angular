@@ -47,7 +47,7 @@
       }
 
       mat-card-header {
-        padding: 1rem 1rem 0;
+        padding: 1rem 1.5rem 0;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -55,9 +55,10 @@
         mat-card-title {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 1rem;
           font-size: 1.1rem;
           margin-bottom: 0;
+          padding-left: 0.5rem;
 
           &.completed {
             text-decoration: line-through;
@@ -67,7 +68,7 @@
       }
 
       mat-card-content {
-        padding: 1rem;
+        padding: 1.5rem;
 
         p {
           margin: 0.5rem 0;
